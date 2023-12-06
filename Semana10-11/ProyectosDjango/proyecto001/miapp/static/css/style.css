@@ -130,6 +130,15 @@ nav ul li a:hover{
     margin: 0 auto;
 }
 
+.box p, .box h2, .box h3, .box ul{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.box ul, .box ol{
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
 .title{
     color: #444;
     letter-spacing: 1px;

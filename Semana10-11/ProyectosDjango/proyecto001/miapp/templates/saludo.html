@@ -1,10 +1,14 @@
 {% extends 'layout.html' %}
 {% block title %}
-    Saludo
+    {{titulo}}
 {% endblock %}
 
 {% block content %}
     <h1 class="title">Bienvenidos al curso</h1>
-    <h2>Alexia Asunción</h2>
-    {{block.super}}
+    <h2>{{autor}}</h2>
+    {% load filters %}
+    {{"Iniciando curso de LP3 en la UNTELS"|saludo|safe}}
+    <p>
+        {{block.super}}
+    </p>
 {% endblock %}
