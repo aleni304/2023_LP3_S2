@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
+from miapp.models import Articulo
 
 layout = """
         <h1>Proyecto web (LP3)</h1>
@@ -68,3 +69,44 @@ def rango2(request,a,b):
         a += 1
     resultado += "</ul>"
     return HttpResponse(layout + resultado)
+
+def crear_articulo(request, titulo, contenido, publicado):
+    articulo = Articulo(
+        titulo = titulo,
+        contenido = contenido,
+        publicado = publicado
+    )
+    articulo.save()
+    return HttpResponse(f"Articulo Creado: {articulo.titulo} - {articulo.contenido}")
+
+def buscar_articulo(request,num):
+    try:
+        articulo = Articulo.objects.get(id=num)
+        resultado = f"""Articulo: 
+                        <br> <strong>ID:</strong> {articulo.id} 
+                        <br> <strong>Título:</strong> {articulo.titulo} 
+                        <br> <strong>Contenido:</strong> {articulo.contenido}
+                        """
+    except:
+        resultado = "<h1> Artículo No Encontrado </h1>"
+    return HttpResponse(resultado)
+
+def editar_articulo(request, id):
+    articulo = Articulo.objects.get(pk=id)
+    articulo.titulo = "Enseñanza presencial en la UNTELS"
+    articulo.contenido = "Aula Virtual, Google Meet, Portal Académico, Google Classroom..."
+    articulo.publicado = False
+    articulo.save()
+    return HttpResponse(f"Articulo Editado: {articulo.titulo} - {articulo.contenido}")
+
+def listar_articulos(request):
+    articulos = Articulo.objects.all()
+    return render(request, 'listar_articulos.html',{
+        'articulos':articulos,
+        'titulo': 'Listado de Artículos'
+    })
+
+def eliminar_articulo(request, id):
+    articulo = Articulo.objects.get(pk=id)
+    articulo.delete()
+    return redirect('listar_articulos')
